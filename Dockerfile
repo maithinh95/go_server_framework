@@ -22,7 +22,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./bin/facepayserver
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./bin/go-server
 
 ######## Start a new stage from scratch #######
 FROM alpine:latest 
@@ -38,8 +38,8 @@ RUN ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime;\
 WORKDIR /root/
 
 # Build Args
-ARG SHARE_DIR=/etc/facepayserver
-ARG LOG_DIR=/var/log/facepayserver
+ARG SHARE_DIR=/etc/go-server
+ARG LOG_DIR=/var/log/go-server
 
 # Create Log Directory
 RUN mkdir -p ${SHARE_DIR}
@@ -57,8 +57,8 @@ COPY --from=builder /app/config.d ${SHARE_DIR}/config.d
 
 
 # RUN ls -al bin
-# RUN ls -al /etc/facepayserver/config.d
-# RUN ls -al /var/log/facepayserver
+# RUN ls -al /etc/go-server/config.d
+# RUN ls -al /var/log/go-server
 
 # This container exposes port 8080 to the outside world
 EXPOSE 8000
@@ -67,4 +67,4 @@ EXPOSE 8000
 VOLUME [${SHARE_DIR}, ${LOG_DIR}}]
 
 # Run the binary program produced by `go install`
-CMD ["./bin/facepayserver"]
+CMD ["./bin/go-server"]

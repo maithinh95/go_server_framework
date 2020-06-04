@@ -18,11 +18,11 @@ func init() {
 	/* Set Input ENV */
 	env.configpath = os.Getenv("CONFIG_LOCATION")
 	if len(env.configpath) == 0 {
-		env.configpath = "./etc/facepayserver/config.d/setting.conf"
+		env.configpath = "./etc/go-server/config.d/setting.conf"
 	}
 	env.logdir = os.Getenv("LOG_DIR_LOCATION")
 	if len(env.logdir) == 0 {
-		env.logdir = "./var/log/facepayserver/"
+		env.logdir = "./var/log/go-server/"
 	}
 	/* Set Input Config */
 	body, err := ioutil.ReadFile(env.configpath)
